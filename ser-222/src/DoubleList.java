@@ -1,11 +1,11 @@
 import java.util.Iterator;
 
-public class DoubleList<T> implements ListADT<T> {
+public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		Iterator<T> iter = this.iterator();
+		return this.iterator();
 	}
 
 	@Override
@@ -54,6 +54,27 @@ public class DoubleList<T> implements ListADT<T> {
 	public int size() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	private class DoubleIterator<T> implements Iterator<T> {
+		T next;
+		
+		@Override
+		public boolean hasNext() {
+			return next != null;
+		}
+
+		@Override
+		public T next() {
+			return next;
+		}
+
+		@Override
+		public void remove() {
+			// TODO Auto-generated method stub
+			
+		}
+
 	}
 
 }

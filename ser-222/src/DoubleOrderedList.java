@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public class DoubleOrderedList<T> implements OrderedListADT<T> {
+public class DoubleOrderedList<T> extends DoubleList<T> implements OrderedListADT<T> {
 
 	@Override
 	public T removeFirst() {
