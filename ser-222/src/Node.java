@@ -1,5 +1,3 @@
-package unit4;
-
 public class Node<Item> {
 	private Item elem;
 	Node<Item> next;

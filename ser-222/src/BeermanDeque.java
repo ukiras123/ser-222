@@ -1,5 +1,3 @@
-package unit4;
-
 /**
  * This program provides an implementation of the Deque interface
  * and demonstrates it.

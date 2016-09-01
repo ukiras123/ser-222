@@ -13,7 +13,7 @@ public class MazeSolver
 {
     private Maze maze;
     // moves deque keeps track of all moves, bad moves will be removed
-    private Deque<Position> moves = new LinkedList<Position>();
+    private LinkedList<Position> moves = new LinkedList<Position>();
     
     /**
      * Constructor for the MazeSolver class.
@@ -35,7 +35,7 @@ public class MazeSolver
     public boolean traverse(Position pos, Position endPos)
     {
         boolean done = false;
-        Deque<Position> stack = new LinkedList<Position>();
+        LinkedList<Position> stack = new LinkedList<Position>();
         
         stack.push(pos);
         //moves.push(pos);
@@ -85,7 +85,7 @@ public class MazeSolver
      * @param stack the working stack of moves within the grid
      * @return moves deque that tracks moves on the successful path
      */
-    private Deque<Position> push_new_pos(int x, int y, Deque<Position> stack, Deque<Position> moves)
+    private LinkedList<Position> push_new_pos(int x, int y, LinkedList<Position> stack, LinkedList<Position> moves2)
     {
         Position npos = new Position();
         npos.setx(x);
@@ -93,17 +93,17 @@ public class MazeSolver
         
         if (maze.validPosition(x,y)) {
             stack.push(npos);
-          	moves.push(npos);
+          	moves2.push(npos);
        }
         
-        return moves;
+        return moves2;
     }
     
     /**
      * Prints the positions from the successful path
      */
     public void printPath() {
-    	Deque<Position> finalPath = new LinkedList<Position>();
+    	LinkedList<Position> finalPath = new LinkedList<Position>();
     	Iterator<Position> iter = moves.iterator();
     	
     	while (iter.hasNext()) {

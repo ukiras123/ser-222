@@ -1,9 +1,7 @@
-import unit4.Node;
-
 public class DoubleNode<T> {
 	private T elem;
-	Node<T> next;
-	Node<T> prev;
+	DoubleNode<T> next;
+	DoubleNode<T> prev;
 	
 	public DoubleNode(T elem) {
 		this.elem = elem;
@@ -19,19 +17,19 @@ public class DoubleNode<T> {
 		this.elem = elem;
 	}
 	
-	public Node<T> getNext() {
+	public DoubleNode<T> getNext() {
 		return next;
 	}
 	
-	public void setNext(Node<T> next) {
+	public void setNext(DoubleNode<T> next) {
 		this.next = next;
 	}
 	
-	public Node<T> getPrev() {
+	public DoubleNode<T> getPrev() {
 		return prev;
 	}
 	
-	public void setPrev(Node<T> prev) {
+	public void setPrev(DoubleNode<T> prev) {
 		this.prev = prev;
 	}
 }
