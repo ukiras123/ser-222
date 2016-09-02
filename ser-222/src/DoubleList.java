@@ -1,13 +1,24 @@
 import java.util.Iterator;
 
 public class DoubleList<T> implements ListADT<T>, Iterable<T> {
+	private int count;
+	private DoubleNode<T> first, last;
+	
+	public DoubleList() {
+		count = 0;
+		first = last = null;
+	}
 
 	@Override
 	public Iterator<T> iterator() {
-		Iterator<T> iter = this.iterator();
-		return this.iterator();
+		return null;
 	}
-
+	
+	public DoubleIterator<T> doubleIterator() {
+		DoubleIterator<T> iter = new DoubleIterator<T>();
+		return iter;
+	}
+	
 	@Override
 	public T removeFirst() {
 		// TODO Auto-generated method stub
@@ -57,7 +68,7 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 	}
 	
 	private class DoubleIterator<T> implements Iterator<T> {
-		T next;
+		private T next;
 		
 		@Override
 		public boolean hasNext() {
@@ -71,7 +82,7 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 
 		@Override
 		public void remove() {
-			// TODO Auto-generated method stub
+			throw new UnsupportedOperationException("");
 			
 		}
 

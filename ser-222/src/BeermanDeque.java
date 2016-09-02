@@ -9,7 +9,8 @@ import java.util.NoSuchElementException;
     
 public class BeermanDeque<Item> implements Deque<Item> {
 	private int count;
-	private Node<Item> first, last;
+	private Node<Item> first;
+	private Node<Item> last;
 			
 	public BeermanDeque() {
 		count = 0;
@@ -53,8 +54,13 @@ public class BeermanDeque<Item> implements Deque<Item> {
 			throw new NoSuchElementException("Deque is empty");
 		} else {
 			element = first.getElement();
-			first = first.getPrev();
-			first.setNext(null);
+			
+			if (size() > 1) {
+				first = first.getPrev();
+				first.setNext(null);
+			} else {
+				first = last = null;
+			}
 		}
 		
 		count--;
@@ -69,8 +75,13 @@ public class BeermanDeque<Item> implements Deque<Item> {
 			throw new NoSuchElementException("Deque is empty");
 		} else {
 			element = last.getElement();
-			last = last.getNext();
-			last.setPrev(null);
+			
+			if (size() > 1) {
+				last = last.getNext();
+				last.setPrev(null);
+			} else {
+				first = last = null;
+			}
 		}
 		
 		count--;
@@ -105,14 +116,15 @@ public class BeermanDeque<Item> implements Deque<Item> {
 	@Override
 	public String toString() {
 		String result = "";
+		
 		if (isEmpty()) {
 			return "empty";
 		} else {
 			Node<Item> node = last;
-			result += node.getElement() + " ";
+			result += node.getElement();
 			
 			while (node.getNext() != null) {
-				result += node.getNext().getElement() + " ";
+				result += " " + node.getNext().getElement();
 				node = node.getNext();
 			}
 		}
@@ -136,8 +148,8 @@ public class BeermanDeque<Item> implements Deque<Item> {
         deque.enqueueBack(8);
         deque.dequeueFront();
         System.out.println("size: " + deque.size());
-        System.out.println("contents:\n" + deque.toString());   
-
+        System.out.println("contents:\n" + deque.toString());
+        
         //deque features
         System.out.println(deque.dequeueFront());        
         deque.enqueueFront(1);
@@ -151,6 +163,42 @@ public class BeermanDeque<Item> implements Deque<Item> {
         deque.dequeueFront();        
         System.out.println(deque.first());        
         System.out.println("size: " + deque.size());
-        System.out.println("contents:\n" + deque.toString());            
+        System.out.println("contents:\n" + deque.toString());
+        
+        // Additional test cases
+        System.out.println("\nAdditional test case...The following should be in opposite order");
+        BeermanDeque<Integer> otherDeque = new BeermanDeque<>();
+        otherDeque.enqueueBack(3);
+        otherDeque.enqueueBack(7);
+        otherDeque.enqueueBack(4);
+        int size = otherDeque.size();
+        boolean first = true;
+        
+        for (int i = 0; i < size; i++) {
+        	if (first) {
+        		System.out.print(otherDeque.dequeueBack());
+        	} else {
+        		System.out.print(" " + otherDeque.dequeueBack());
+        	}
+        	first = false;
+        }
+        
+        System.out.print("\n");
+        
+        otherDeque.enqueueBack(3);
+        otherDeque.enqueueBack(7);
+        otherDeque.enqueueBack(4);
+        
+        size = otherDeque.size();
+        first = true;
+        
+        for (int i = 0; i < size; i++) {
+        	if (first) {
+        		System.out.print(otherDeque.dequeueFront());
+        	} else {
+        		System.out.print(" " + otherDeque.dequeueFront());
+        	}
+        	first = false;
+        }
     }
 } 
