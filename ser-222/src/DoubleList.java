@@ -69,15 +69,24 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 	
 	private class DoubleIterator<T> implements Iterator<T> {
 		private T next;
+		private T prev;
 		
 		@Override
 		public boolean hasNext() {
 			return next != null;
 		}
+		
+		public boolean hasPrev() {
+			return prev != null;
+		}
 
 		@Override
 		public T next() {
 			return next;
+		}
+		
+		public T prev() {
+			return prev;
 		}
 
 		@Override
