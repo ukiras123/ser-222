@@ -1,94 +1,216 @@
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DoubleList<T> implements ListADT<T>, Iterable<T> {
-	private int count;
-	private DoubleNode<T> first, last;
+	protected int count;
+	protected int modCount;
+	protected DoubleNode<T> first, last;
 	
 	public DoubleList() {
 		count = 0;
+		modCount = 0;
 		first = last = null;
 	}
 
 	@Override
 	public Iterator<T> iterator() {
-		return null;
+		return new DoubleIterator();
 	}
-	
-	public DoubleIterator<T> doubleIterator() {
-		DoubleIterator<T> iter = new DoubleIterator<T>();
-		return iter;
-	}
-	
+		
 	@Override
 	public T removeFirst() {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty()) {
+			throw new EmptyCollectionException("DoubleList");
+		}
+		
+		T element = first.getElement();
+		
+		if (size() > 1) {
+			first = first.getNext();
+			first.setPrev(null);
+		} else {
+			first = last = null;
+		}
+		
+		count--;
+		modCount++;
+		
+		return element;
 	}
 
 	@Override
 	public T removeLast() {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty()) {
+			throw new EmptyCollectionException("DoubleList");
+		}
+		
+		T element = last.getElement();
+		
+		if (size() > 1) {
+			last = last.getPrev();
+			last.setNext(null);
+		} else {
+			first = last = null;
+		}
+		
+		count--;
+		modCount++;
+		
+		return element;
 	}
 
 	@Override
 	public T remove(T element) {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty()) {
+			throw new EmptyCollectionException("DoubleList");
+		}
+		
+		if (!(element instanceof Comparable)) {
+			throw new NonComparableElementException("Element not of type Comparable");
+		}
+		
+		@SuppressWarnings("unchecked")
+		Comparable<T> comparableElement = (Comparable<T>)element;
+		Iterator<T> iter = iterator();
+		DoubleNode<T> current = first;
+		boolean found = false;
+		boolean isFirst = true;
+		
+		while (iter.hasNext()) {
+			T currElem = iter.next();
+			if (comparableElement.compareTo(currElem) == 0) {
+				found = true;
+				
+				if (size() == 1) {
+					first = last = null;
+				} else {
+					if (isFirst) {
+						first = first.getNext();
+						first.setPrev(null);
+					} else {
+						if(current.equals(last)) {
+							last = current.getPrev();
+							last.setNext(null);
+						} else {
+							current.getPrev().setNext(current.getNext());
+							current.getNext().setPrev(current.getPrev());
+						}
+					}
+				}
+				
+				break;
+			}
+			
+			isFirst = false;
+			current = current.getNext();
+		}
+		
+		if (!found) {
+			throw new NoSuchElementException();
+		}
+		
+		count--;
+		modCount++;
+		
+		return element;
 	}
 
 	@Override
 	public T first() {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		
+		return first.getElement();
 	}
 
 	@Override
 	public T last() {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		
+		return last.getElement();
 	}
 
 	@Override
 	public boolean contains(T target) {
-		// TODO Auto-generated method stub
-		return false;
+		if (isEmpty()) {
+			throw new EmptyCollectionException("DoubleList");
+		}
+		
+		if (!(target instanceof Comparable)) {
+			throw new NonComparableElementException("Element not of type Comparable");
+		}
+		
+		@SuppressWarnings("unchecked")
+		Comparable<T> comparableElement = (Comparable<T>)target;
+		Iterator<T> iter = iterator();
+		boolean found = false;
+		
+		while (iter.hasNext()) {
+			if (comparableElement.compareTo(iter.next()) == 0) {
+				found = true;
+				break;
+			}
+		}
+		
+		return found;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return count == 0;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return count;
 	}
 	
-	private class DoubleIterator<T> implements Iterator<T> {
-		private T next;
-		private T prev;
+	@Override
+	public String toString() {
+		String result = "";
+		
+		Iterator<T> iter = iterator();
+		
+		while (iter.hasNext()) {
+			T elem = iter.next();
+			result += elem + " ";
+		}
+		
+		return result;
+	}
+	
+	private class DoubleIterator implements Iterator<T> {
+		private int iteratorModCount;
+		private DoubleNode<T> current;
+		
+		public DoubleIterator() {
+			current = first;
+			iteratorModCount = modCount;
+		}
 		
 		@Override
 		public boolean hasNext() {
-			return next != null;
-		}
-		
-		public boolean hasPrev() {
-			return prev != null;
+			if (iteratorModCount != modCount) {
+				throw new ConcurrentModificationException();
+			}
+			return current != null;
 		}
 
 		@Override
 		public T next() {
-			return next;
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			
+			T result = current.getElement();
+			current = current.getNext();
+			return result;
 		}
 		
-		public T prev() {
-			return prev;
-		}
-
 		@Override
 		public void remove() {
 			throw new UnsupportedOperationException("");
