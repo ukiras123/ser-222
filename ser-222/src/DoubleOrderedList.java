@@ -1,8 +1,7 @@
 import java.util.Iterator;
 
 public class DoubleOrderedList<T> extends DoubleList<T> implements OrderedListADT<T> {
-	
-	
+
 	public DoubleOrderedList() {
 		count = 0;
 		modCount = 0;

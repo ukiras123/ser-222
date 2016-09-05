@@ -1,6 +1,5 @@
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 	protected int count;
@@ -107,7 +106,7 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 		}
 		
 		if (!found) {
-			throw new NoSuchElementException();
+			throw new ElementNotFoundException("DoubleList");
 		}
 		
 		count--;
@@ -119,7 +118,7 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 	@Override
 	public T first() {
 		if (isEmpty()) {
-			throw new NoSuchElementException();
+			throw new EmptyCollectionException("DoubleList");
 		}
 		
 		return first.getElement();
@@ -128,7 +127,7 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 	@Override
 	public T last() {
 		if (isEmpty()) {
-			throw new NoSuchElementException();
+			throw new EmptyCollectionException("DoubleList");
 		}
 		
 		return last.getElement();
@@ -171,13 +170,22 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 	
 	@Override
 	public String toString() {
-		String result = "";
+		if (isEmpty()) {
+			return "empty";
+		}
 		
+		String result = "";
 		Iterator<T> iter = iterator();
+		boolean first = true;
 		
 		while (iter.hasNext()) {
+			if (!first) {
+				result += " ";
+			}
+			
+			first = false;
 			T elem = iter.next();
-			result += elem + " ";
+			result += elem;
 		}
 		
 		return result;
@@ -203,7 +211,7 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 		@Override
 		public T next() {
 			if (!hasNext()) {
-				throw new NoSuchElementException();
+				throw new EmptyCollectionException("DoubleIterator");
 			}
 			
 			T result = current.getElement();
@@ -213,10 +221,8 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 		
 		@Override
 		public void remove() {
-			throw new UnsupportedOperationException("");
-			
+			throw new UnsupportedOperationException("");	
 		}
-
 	}
 
 }

@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException;
+
 /**
  * DoubleOrderedList testing area.
  * 
@@ -41,7 +43,12 @@ public class Driver {
         //Everything above is original
         DoubleOrderedList<Integer> testRemoveFirst = new DoubleOrderedList<>();
         int testElem1;
-        //testElem1 = testRemoveFirst.removeFirst(); // uncomment to test exception
+        
+        try {
+        	testElem1 = testRemoveFirst.removeFirst(); // uncomment to test exception
+        } catch (EmptyCollectionException e) {
+        	System.out.println("No first element to remove");
+        }
         testRemoveFirst.add(5);
         // Test removeFirst from list of 1 element
         System.out.println("List before removeFirst: " + testRemoveFirst);
@@ -81,6 +88,7 @@ public class Driver {
         testRemove.add(25);
         testRemove.add(12);
         testRemove.add(3);
+        
         // Test matching on first entry
         System.out.println("List before remove(3): " + testRemove);
         int testElem3 = testRemove.remove(3);
@@ -97,8 +105,12 @@ public class Driver {
         System.out.println("List contains 25: " + testRemove.contains(25));
         System.out.println("List contains 7: " + testRemove.contains(7));
         
-        //Test removal of unmatched element. Should throw NoSuchElementException.
-        System.out.println("Trying remove(7)" + testRemove.remove(7));
+        //Test removal of unmatched element. Should throw ElementNotFoundException.
+        try {
+        	System.out.println("Trying remove(7)" + testRemove.remove(7));
+        } catch (ElementNotFoundException e) {
+        	System.out.println("Element 7 not found in list");
+        }
         
     }
 }
