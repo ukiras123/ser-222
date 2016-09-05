@@ -40,7 +40,9 @@ public class Driver {
             3 9 13 16 
         */
         
-        //Everything above is original
+        //Everything below is additional
+        
+        System.out.println("\nBegin additional test cases...\n------------------------------");
         DoubleOrderedList<Integer> testRemoveFirst = new DoubleOrderedList<>();
         int testElem1;
         
@@ -103,14 +105,6 @@ public class Driver {
         System.out.println("List contains 12: " + testRemove.contains(12));
         System.out.println("List contains 3: " + testRemove.contains(3));
         System.out.println("List contains 25: " + testRemove.contains(25));
-        System.out.println("List contains 7: " + testRemove.contains(7));
-        
-        //Test removal of unmatched element. Should throw ElementNotFoundException.
-        try {
-        	System.out.println("Trying remove(7)" + testRemove.remove(7));
-        } catch (ElementNotFoundException e) {
-        	System.out.println("Element 7 not found in list");
-        }
-        
+        System.out.println("List contains 7: " + testRemove.contains(7));        
     }
 }
