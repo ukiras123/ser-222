@@ -1,8 +1,8 @@
 /**
- * Write a description of class Base_HW01 here.
+ * This program generates a random maze using recursion.
  * 
- * @author (your name), Acuna
- * @version (a version number or a date)
+ * @author Robert Beerman, Acuna
+ * @version 09/08/2016
  */
 import java.util.Random;
 
