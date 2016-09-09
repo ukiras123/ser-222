@@ -64,6 +64,21 @@ public class ArrayStack<T> implements StackADT<T>, StepIterable<T> {
 		return top;
 	}
 	
+	@Override
+	public String toString() {
+		if (isEmpty()) {
+			return "empty";
+		}
+		
+		String result = "";
+		
+		for (int i = size()-1; i >= 0; i--) {
+			result += stack[i] + " ";
+		}
+		
+		return result;
+	}
+	
 	public StepIterator<T> iterator() {
 		return new ReverseArrayIterator();
 	}
@@ -86,7 +101,7 @@ public class ArrayStack<T> implements StackADT<T>, StepIterable<T> {
 		public boolean hasNext() {
 			if (i == top && i > 0) {
 				return true;
-			} else if (i - step > 0) {
+			} else if (i - step >= 0) {
 				return true;
 			}
 			
@@ -105,15 +120,21 @@ public class ArrayStack<T> implements StackADT<T>, StepIterable<T> {
 			
 			i -= step;
 			
-			return stack[--i];
+			return stack[i];
 		}
 
 		@Override
 		public void remove() {
-			// TODO Auto-generated method stub
+			if (i == top) {
+				throw new IllegalStateException("Cannot call remove() before calling next()");
+			}
 			
-		}
-		
-	}
+			top--;
 
+			for (int j = i; j < top; j++) {
+				stack[j] = stack[j+1];
+			}
+			stack[top] = null;
+		}
+	}
 }
