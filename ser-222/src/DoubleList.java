@@ -221,7 +221,7 @@ public class DoubleList<T> implements ListADT<T>, Iterable<T> {
 		
 		@Override
 		public void remove() {
-			throw new UnsupportedOperationException("");	
+			//throw new UnsupportedOperationException();	
 		}
 	}
 

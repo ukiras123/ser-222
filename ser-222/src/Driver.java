@@ -105,6 +105,6 @@ public class Driver {
         System.out.println("List contains 12: " + testRemove.contains(12));
         System.out.println("List contains 3: " + testRemove.contains(3));
         System.out.println("List contains 25: " + testRemove.contains(25));
-        System.out.println("List contains 7: " + testRemove.contains(7));        
+        System.out.println("List contains 7: " + testRemove.contains(7)); 
     }
 }
