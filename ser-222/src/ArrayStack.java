@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public class ArrayStack<T> implements StackADT<T>, StepIterable<T> {
 
@@ -68,8 +69,13 @@ public class ArrayStack<T> implements StackADT<T>, StepIterable<T> {
 	}
 	
 	private class ReverseArrayIterator implements StepIterator<T> {
-		int i = top;
-		int step = 1;
+		int i;
+		int step;
+		
+		public ReverseArrayIterator() {
+			i = top;
+			step = 1;
+		}
 		
 		@Override
 		public void setStep(int s) {
@@ -78,14 +84,28 @@ public class ArrayStack<T> implements StackADT<T>, StepIterable<T> {
 
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
+			if (i == top && i > 0) {
+				return true;
+			} else if (i - step > 0) {
+				return true;
+			}
+			
 			return false;
 		}
 
 		@Override
 		public T next() {
-			// TODO Auto-generated method stub
-			return null;
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			
+			if (i == top) {
+				return stack[--i];
+			}
+			
+			i -= step;
+			
+			return stack[--i];
 		}
 
 		@Override
