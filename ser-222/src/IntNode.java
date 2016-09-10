@@ -2,6 +2,16 @@ public class IntNode {
 	private int value;
     private IntNode next;
 
+    public IntNode(int i) {
+    	value = i;
+    	next = null;
+    }
+    
+    public IntNode() {
+    	value = 0;
+    	next = null;
+    }
+    
     public int getInt() {
     	return value;
     }
