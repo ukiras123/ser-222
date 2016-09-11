@@ -1,8 +1,10 @@
 /**
  * This program generates a random maze using recursion.
+ * The actual drawn maze area is within an outer border,
+ * so the actual maze area is LEVEL_HEIGHT-2 x LEVEL_WIDTH-2
  * 
  * @author Robert Beerman, Acuna
- * @version 09/08/2016
+ * @version 09/11/2016
  */
 import java.util.Random;
 
@@ -101,9 +103,8 @@ public class BeermanMazeGen
         return level;
     }
 
-    //TODO: complete method.
     private static void makeMazeRecursive(char[][]level, int startX, int startY, int endX, int endY) {
-    	if ((endY - startY >=1 && endX - startX >=2) || (endY - startY >=2 && endX - startX >=1)) {
+    	if (endY - startY >=2 && endX - startX >=2) {
 	    	// Generate horizontal wall location
 	    	int hWallValue = randBetween(startY+1, endY-1, random);
 	    	// Generate vertical wall location
@@ -115,25 +116,18 @@ public class BeermanMazeGen
 	    	int vDoorTop = randBetween(startY, hWallValue-1, random);
 	    	int vDoorBottom = randBetween(hWallValue+1, endY, random);
 	    	
-	    	//System.out.println("hWallValue = " + hWallValue + ", vWallValue = " + vWallValue);
-	    	
-	    	// Only build the wall if there's enough space
-	    	if (endY - startY >=2) {
-		    	// Populate the horizontal wall
-		    	for (int h = startX; h <= endX; h++) {
-		    		if (h != hDoorLeft && h != hDoorRight) {
-		    			level[hWallValue][h] = ICON_WALL;
-		    		}
-		    	}
+	    	// Build the horizontal wall
+	    	for (int h = startX; h <= endX; h++) {
+	    		if (h != hDoorLeft && h != hDoorRight) {
+	    			level[hWallValue][h] = ICON_WALL;
+	    		}
 	    	}
 
-	    	if (endX - startX >=2) {
-		    	// Populate the vertical wall
-		    	for (int v = startY; v <= endY; v++) {
-		    		if (v != vDoorTop && v != vDoorBottom) {
-		    			level[v][vWallValue] = ICON_WALL;
-		    		}
-		    	}
+	    	// Build the vertical wall
+	    	for (int v = startY; v <= endY; v++) {
+	    		if (v != vDoorTop && v != vDoorBottom) {
+	    			level[v][vWallValue] = ICON_WALL;
+	    		}
 	    	}
 	    	
 	    	// create upper left walls and doors
