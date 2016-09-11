@@ -11,8 +11,8 @@ import java.util.Random;
 public class BeermanMazeGen
 {
     //standard console size in characters.
-    private static final int LEVEL_HEIGHT = 24;
-    private static final int LEVEL_WIDTH = 80;       
+    private static final int LEVEL_HEIGHT = 12;
+    private static final int LEVEL_WIDTH = 12;       
     
     private static final char ICON_WALL = '#';           
     //private static final char ICON_BLANK = ' ';
