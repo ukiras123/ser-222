@@ -9,8 +9,8 @@ import java.util.Random;
 public class BeermanMazeGen
 {
     //standard console size in characters.
-    private static final int LEVEL_HEIGHT = 22;
-    private static final int LEVEL_WIDTH = 84;       
+    private static final int LEVEL_HEIGHT = 24;
+    private static final int LEVEL_WIDTH = 80;       
     
     private static final char ICON_WALL = '#';           
     //private static final char ICON_BLANK = ' ';
@@ -104,20 +104,21 @@ public class BeermanMazeGen
     //TODO: complete method.
     private static void makeMazeRecursive(char[][]level, int startX, int startY, int endX, int endY) {
     	if ((endY - startY >=1 && endX - startX >=2) || (endY - startY >=2 && endX - startX >=1)) {
-	    	// Get the horizontal wall location
+	    	// Generate horizontal wall location
 	    	int hWallValue = randBetween(startY+1, endY-1, random);
-	    	// Get the vertical wall location
+	    	// Generate vertical wall location
 	    	int vWallValue = randBetween(startX+1, endX-1, random);
-	    	// Get the horizontal door locations
+	    	// Generate horizontal door locations
 	    	int hDoorLeft = randBetween(startX, vWallValue-1, random);
 	    	int hDoorRight = randBetween(vWallValue+1, endX, random);
-	    	// Get the vertical door locations
+	    	// Generate vertical door locations
 	    	int vDoorTop = randBetween(startY, hWallValue-1, random);
 	    	int vDoorBottom = randBetween(hWallValue+1, endY, random);
 	    	
-	    	System.out.println("hWallValue = " + hWallValue + ", vWallValue = " + vWallValue);
+	    	//System.out.println("hWallValue = " + hWallValue + ", vWallValue = " + vWallValue);
 	    	
-	    	if (endY - startY >=2 && endX - startX >=1) {
+	    	// Only build the wall if there's enough space
+	    	if (endY - startY >=2) {
 		    	// Populate the horizontal wall
 		    	for (int h = startX; h <= endX; h++) {
 		    		if (h != hDoorLeft && h != hDoorRight) {
@@ -125,8 +126,8 @@ public class BeermanMazeGen
 		    		}
 		    	}
 	    	}
-	    	
-	    	if (endY - startY >=1 && endX - startX >=2) {
+
+	    	if (endX - startX >=2) {
 		    	// Populate the vertical wall
 		    	for (int v = startY; v <= endY; v++) {
 		    		if (v != vDoorTop && v != vDoorBottom) {
