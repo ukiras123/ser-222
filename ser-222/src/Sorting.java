@@ -233,6 +233,9 @@ public class Sorting
 		
 		// use the middle data value as the partition element
 		partitionelement = data[middle];
+		
+		System.out.println("qs partitionelement: " + partitionelement);
+		
 		// move it out of the way for now
 		swap(data, middle, min);
 		
@@ -257,16 +260,9 @@ public class Sorting
 		// move the partition element into place
 		swap(data, min, right);
 		
-		for(int i = 0; i < data.length; i++) {
-			System.out.print(data[i] + " ");
-		}
+		System.out.println("right: " + right);
 		
 		return right;
-	}
-	
-	public static void main(String[] args) {
-		int part = partition(new Integer[]{2, 13, 16, 12, 25, 23, 3, 7}, 0, 7);
-		System.out.println("\n" + part);
 	}
 }
 
