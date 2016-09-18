@@ -29,43 +29,43 @@ public class BeermanSorting {
         
         //quicksortmid tests
         System.out.println("\nQUICKSORTMID TESTS");
-        System.out.println("quicksortmid - high-to-low, odd # of elements...");
+        System.out.println("quicksortmid - high-to-low, odd # of elements {20, 12, 4}");
         Integer[] qst1 = {20, 12, 4};
         quicksortmid(qst1);
         assert isSorted(qst1);
         show(qst1);
         
-        System.out.println("quicksortmid - includes negatives...");
+        System.out.println("quicksortmid - includes negatives {20, 12, 20, 21, 1, -1, -15}");
         Integer[] qst2 = {20, 12, 20, 21, 1, -1, -15};
         quicksortmid(qst2);
         assert isSorted(qst2);
         show(qst2);
         
-        System.out.println("quicksortmid - even # of elements...");
+        System.out.println("quicksortmid - even # of elements {12, 20, 13, 15}");
         Integer[] qst3 = {12, 20, 13, 15};
         quicksortmid(qst3);
         assert isSorted(qst3);
         show(qst3);
         
-        System.out.println("quicksortmid - already sorted...");
+        System.out.println("quicksortmid - already sorted {10, 20, 30}");
         Integer[] qst4 = {10, 20, 30};
         quicksortmid(qst4);
         assert isSorted(qst4);
         show(qst4);
         
-        System.out.println("quicksortmid - two-elements, Strings of more than one char...");
+        System.out.println("quicksortmid - two-elements, Strings of more than one char {yaS, ySa}");
         String[] qst5 = {"yaS", "ySa"};
         quicksortmid(qst5);
         assert isSorted(qst5);
         show(qst5);
 
-        System.out.println("quicksortmid - one element...");
+        System.out.println("quicksortmid - one element {S}");
         String[] qst6 = {"S"};
         quicksortmid(qst6);
         assert isSorted(qst6);
         show(qst6);
 
-        System.out.println("quicksortmid - empty...");
+        System.out.println("quicksortmid - empty {}");
         String[] qst7 = {};
         quicksortmid(qst7);
         assert isSorted(qst7);
@@ -73,43 +73,43 @@ public class BeermanSorting {
        
         //mergesort tests
         System.out.println("MERGESORT TESTS");
-        System.out.println("mergesort - high-to-low, odd # of elements...");
+        System.out.println("mergesort - high-to-low, odd # of elements {20, 12, 4}");
         Integer[] mst4 = {20, 12, 4};
         mergesort(mst4);
         assert isSorted(mst4);
         show(mst4);
 
-        System.out.println("mergesort - includes negatives...");
+        System.out.println("mergesort - includes negatives {20, 12, 20, 21, 1, -1, -15}");
         Integer[] mst5 = {20, 12, 20, 21, 1, -1, -15};
         mergesort(mst5);
         assert isSorted(mst5);
         show(mst5);
 
-        System.out.println("mergesort - even # of elements...");
+        System.out.println("mergesort - even # of elements {12, 20, 13, 15}");
         Integer[] mst6 = {12, 20, 13, 15};
         mergesort(mst6);
         assert isSorted(mst6);
         show(mst6);
 
-        System.out.println("mergesort - already sorted...");
+        System.out.println("mergesort - already sorted {10, 20, 30}");
         Integer[] mst7 = {10, 20, 30};
         mergesort(mst7);
         assert isSorted(mst7);
         show(mst7);
         
-        System.out.println("mergesort - two-elements, Strings of more than one char...");
+        System.out.println("mergesort - two-elements, Strings of more than one char {yaS, ySa}");
         String[] mst1 = {"yaS", "ySa"};
         mergesort(mst1);
         assert isSorted(mst1);
         show(mst1);
         
-        System.out.println("mergesort - one element...");
+        System.out.println("mergesort - one element {S}");
         String[] mst2 = {"S"};
         mergesort(mst2);
         assert isSorted(mst2);
         show(mst2);
         
-        System.out.println("mergesort - empty...");
+        System.out.println("mergesort - empty {}");
         String[] mst3 = {};
         mergesort(mst3);
         assert isSorted(mst3);
