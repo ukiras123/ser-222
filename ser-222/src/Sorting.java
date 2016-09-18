@@ -7,8 +7,7 @@ import java.util.Arrays;
  * @author Lewis and Chase
  * @version 4.0 
  */
-public class Sorting 
-{
+public class Sorting {	
     /**
      * Sorts the specified array of integers using the selection
      * sort algorithm.
@@ -53,8 +52,7 @@ public class Sorting
      *
      * @param data the array to be sorted
      */
-    public static <T extends Comparable<T>> 
-		void insertionSort(T[] data)
+    public static <T extends Comparable<T>> void insertionSort(T[] data)
     {
         for (int index = 1; index < data.length; index++)
         {
@@ -114,9 +112,7 @@ public class Sorting
      * @param min  the index of the first element 
      * @param max  the index of the last element
      */
-	private static <T extends Comparable<T>>
-		void mergeSort(T[] data, int min, int max)
-	{
+	private static <T extends Comparable<T>> void mergeSort(T[] data, int min, int max)	{			
 		if (min < max)
 		{
 			int mid = (min + max) / 2;
@@ -124,6 +120,8 @@ public class Sorting
 			mergeSort(data, mid+1, max);
 			merge(data, min, mid, max);
 		}
+		
+		
 	}
 	
 	/**
@@ -135,9 +133,7 @@ public class Sorting
      * @param last the ending index of the second subarray
      */
 	@SuppressWarnings("unchecked")
-	private static <T extends Comparable<T>>
-		void merge(T[] data, int first, int mid, int last)
-	{
+	private static <T extends Comparable<T>> void merge(T[] data, int first, int mid, int last)	{
 		T[] temp = (T[])(new Comparable[data.length]);
 		
 		int first1 = first, last1 = mid;  // endpoints of first subarray
@@ -176,7 +172,7 @@ public class Sorting
 			first2++;
 			index++;
 		}
-		
+				
 		//  Copy merged data into original array
 		for (index = first; index <= last; index++)
 			data[index] = temp[index];
@@ -233,8 +229,6 @@ public class Sorting
 		
 		// use the middle data value as the partition element
 		partitionelement = data[middle];
-		
-		System.out.println("qs partitionelement: " + partitionelement);
 		
 		// move it out of the way for now
 		swap(data, middle, min);
