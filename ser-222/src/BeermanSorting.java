@@ -1,8 +1,8 @@
 import java.util.Arrays;
 
 /**
- * Implements various sorting algorithms.
- * 
+ * Implements quicksortmid and mergesort sorting algorithms.
+ *  
  * @author Robert Beerman, Acuna, Sedgewick
  * @version 1.0
  */
