@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Implements various sorting algorithms.
  * 
@@ -17,7 +19,6 @@ public class BeermanSorting {
         String[] a = {"S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"};
         quicksortmid(a);
         
-        System.out.print("quicksortmid...");
         assert isSorted(a); //requires assertions enabled.
         show(a);
         
@@ -27,10 +28,45 @@ public class BeermanSorting {
         assert isSorted(b);
         show(b);
         
-        /*String[] c = {"S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"};
-        Sorting.quickSort(c);
+        //Q2a
+        Integer[] b2 = {20, 12, 4};
+        quicksortmid(b2);
+        assert isSorted(b2);
+        show(b2);
+        
+        //quicksortTest3
+        Integer[] qst3 = {12, 20, 15};
+        quicksortmid(qst3);
+        assert isSorted(qst3);
+        show(qst3);
+        
+        //quicksortTest4
+        Integer[] qst4 = {10, 20, 30};
+        quicksortmid(qst4);
+        assert isSorted(qst4);
+        show(qst4);
+       
+        //Q3
+        String[] c = {"S", "O"};
+        mergesort(c);
         assert isSorted(c);
-        show(c);*/
+        show(c);
+        
+        //Q4
+        String[] d = {"S"};
+        mergesort(d);
+        assert isSorted(d);
+        show(d);
+        
+        //Q5
+        String[] e = {};
+        mergesort(e);
+        assert isSorted(e);
+        show(e);
+        
+        // isSorted baseline
+        Integer[] is = {2, 1};
+        boolean baseline = isSorted(is);        
     }
     
     public static void quicksortmid(Comparable[] a) {
@@ -47,7 +83,6 @@ public class BeermanSorting {
     	}
     }
     
-    @SuppressWarnings({ "rawtypes" })
 	private static int partition(Comparable[] data, int minIndex, int maxIndex) {
     	Comparable elemAtMin, elemAtMid, elemAtMax;
     	Comparable partitionElement;
@@ -84,8 +119,6 @@ public class BeermanSorting {
     		}
     	}
     	
-    	System.out.println("partitionElement: " + partitionElement);
-    	
     	// move the partition element out of the way for now
     	swap(data, partitionIndex, minIndex);
     	
@@ -109,13 +142,64 @@ public class BeermanSorting {
     	// move the partition element into place
     	swap(data, minIndex, right);
     	
-    	System.out.println("right: " + right);
-    	
     	return right;
     }
     
     public static void mergesort(Comparable[] a) {
-        //TODO: implement this.
+        Comparable[] merged = mergeSort(a);
+        
+        for (int i = 0; i < merged.length; i++) {
+        	a[i] = merged[i];
+        }
+    }
+    
+    public static Comparable[] mergeSort(Comparable[] a) {
+    	Comparable[] merged = new Comparable[a.length];
+
+    	if (a.length <= 1) {
+    		return a;
+    	} else {
+    		int mid = (a.length - 1) / 2;
+    		Comparable[] left = mergeSort(Arrays.copyOfRange(a, 0, mid + 1));
+    		Comparable[] right = mergeSort(Arrays.copyOfRange(a, mid+1, a.length));
+    		    		
+    		merged = merge(left, right);
+    	}
+    	
+    	return merged;
+    }
+    
+    public static Comparable[] merge(Comparable[] a, Comparable[] b) {
+    	Comparable[] merged = new Comparable[a.length + b.length];
+    	
+    	int firsta = 0, lasta = a.length - 1;
+    	int firstb = 0, lastb = b.length - 1;
+    	int index = 0;
+    	
+    	while (firsta <= lasta && firstb <= lastb) {
+    		if (a[firsta].compareTo(b[firstb]) < 0) {
+    			merged[index] = a[firsta];
+    			firsta++;
+    		} else {
+    			merged[index] = b[firstb];
+    			firstb++;
+    		}
+    		index++;
+    	}
+    	
+    	while (firsta <= lasta) {
+    		merged[index] = a[firsta];
+    		firsta++;
+    		index++;
+    	}
+    	
+    	while (firstb <= lastb) {
+    		merged[index] = b[firstb];
+    		firstb++;
+    		index++;
+    	}
+    	
+    	return merged;
     }
     
     /**
