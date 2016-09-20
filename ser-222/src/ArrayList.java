@@ -62,6 +62,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
     	
     	T result = list[--rear];
     	list[rear] = null;
+    	modCount++;
     	
     	return result;
     }
@@ -87,6 +88,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T>
         
         rear--;
         list[rear] = null;
+        modCount++;
         
         return result;
     }

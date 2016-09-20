@@ -54,7 +54,11 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
     @Override
     public T getRootElement() throws EmptyCollectionException
     {
-        // TODO: Implement this.
+    	if (isEmpty()) {
+    		throw new EmptyCollectionException("LinkedBinaryTree");
+    	}
+    	
+        return root.getElement();
     }
     
     /**
@@ -65,17 +69,21 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
      */
     protected BinaryTreeNode<T> getRootNode() throws EmptyCollectionException
     {
-        // TODO: Implement this.
+    	if (isEmpty()) {
+    		throw new EmptyCollectionException("LinkedBinaryTree");
+    	}
+    	
+    	return root;
     }
     
     /**
      * Returns the left subtree of the root of this tree.
      *
-     * @return a link to the left subtree fo the tree
+     * @return a link to the left subtree of the tree
      */
     public LinkedBinaryTree<T> getLeft()
     {
-        // TODO: Implement this.
+        
     }
     
     /**
