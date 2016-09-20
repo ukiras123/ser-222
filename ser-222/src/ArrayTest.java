@@ -3,28 +3,30 @@ import java.util.Arrays;
 public class ArrayTest {
 
 	public static void main(String[] args) {
-		int[] intArray = {3, 4};
-		int[] copyOfZero = Arrays.copyOfRange(intArray, 0, 1);
+		String[] test = {"A", "B", "C", "D", "E"};
+		int rear = test.length;
 		
-		for (int z = 0; z < copyOfZero.length; z++) {
-			System.out.print("copyOfZero: " + copyOfZero[z] + " ");
+		System.out.println("\nrear: " + rear);
+		for (int i = 0; i < test.length; i++) {
+			System.out.print(test[i] + " ");
 		}
 		
-		System.out.print("\n");
+		/*String result = test[--rear];
+		test[rear] = null;*/
 		
-		for (int i = 0; i < intArray.length; i++) {
-			System.out.print(intArray[i] + " ");
-		}
-		
-		System.out.print("\n");
-		
-		int[] newArray;
-		newArray = intArray;
-		
-		for (int i = 0; i < newArray.length; i++) {
-			System.out.print(newArray[i] + " ");
-		}
+		String result = test[0];
+        
+        for (int i = 0; i < rear-1; i++) {
+        	test[i] = test[i+1];
+        }
+        
+        rear--;
+        test[rear] = null;
 
+        System.out.println("\nrear: " + rear);
+		for (int i = 0; i < test.length; i++) {
+			System.out.print(test[i] + " ");
+		}
 	}
 
 }
