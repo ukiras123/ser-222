@@ -33,7 +33,17 @@ public class ArrayUnorderedList<T> extends ArrayList<T>
     @Override
     public void addToFront(T element)
     {
-        // TODO: Implement this.
+        if (size() == list.length) {
+        	expandCapacity();
+        }
+        
+        for (int i = rear; i > 0; i--) {
+        	list[i] = list[i-1];
+        }
+        
+        list[0] = element;
+        rear++;
+        modCount++;
     }
 
     /**
@@ -44,7 +54,13 @@ public class ArrayUnorderedList<T> extends ArrayList<T>
     @Override
     public void addToRear(T element)
     {
-        // TODO: Implement this.
+    	if (size() == list.length) {
+        	expandCapacity();
+        }
+    	
+    	list[rear] = element;
+    	rear++;
+    	modCount++;
     }
 
     /**
