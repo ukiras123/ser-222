@@ -9,8 +9,8 @@ import java.util.*;
 public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
 {
     protected BinaryTreeNode<T> root; 
-    protected int modCount;
-    
+    protected int modCount, size;
+        
     /**
      * Creates an empty binary tree.
      */
@@ -27,6 +27,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
     public LinkedBinaryTree(T element) 
     {
         root = new BinaryTreeNode<>(element);
+        size++;
     }
     
     /**
@@ -43,6 +44,14 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
         root = new BinaryTreeNode<>(element);
         root.setLeft(left.root);
         root.setRight(right.root);
+        
+        if (left != null) {
+        	size++;
+        }
+        
+        if (right != null) {
+        	size++;
+        }
     }
     
     /**
@@ -83,7 +92,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
      */
     public LinkedBinaryTree<T> getLeft()
     {
-        
+        return new LinkedBinaryTree<T> (root.getLeft().getElement());
     }
     
     /**
@@ -93,7 +102,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
      */
     public LinkedBinaryTree<T> getRight()
     {
-        // TODO: Implement this.
+    	return new LinkedBinaryTree<T> (root.getRight().getElement());
     }
     
     /**
@@ -115,7 +124,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
     @Override
     public int size() 
     {
-        // TODO: Implement this.
+        return size;
     }
     
     /**
