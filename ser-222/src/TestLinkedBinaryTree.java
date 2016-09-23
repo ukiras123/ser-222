@@ -18,7 +18,7 @@ public class TestLinkedBinaryTree {
 		lbtRoot = new LinkedBinaryTree<>(5);
 		lbtLeft = new LinkedBinaryTree<>(10);
 		lbtRight = new LinkedBinaryTree<>(15);
-		lbtAll = new LinkedBinaryTree<>(3, lbtLeft, lbtRight);		
+		lbtAll = new LinkedBinaryTree<>(3, lbtLeft, lbtRight);
 	}
 
 	@After
@@ -63,6 +63,18 @@ public class TestLinkedBinaryTree {
 		assertEquals("", 0, lbtEmpty.getHeight());
 		assertEquals("", 2, lbtAll.getHeight());
 		assertEquals("", 1, lbtRoot.getHeight());
+		
+		LinkedBinaryTree<Integer> lbtBig = new LinkedBinaryTree<>(20, lbtAll, lbtRoot);
+		assertEquals("", 3, lbtBig.getHeight());
+	}
+	
+	@Test
+	public void testToString() {
+		assertEquals("", "5", lbtRoot.toString());
+		assertEquals("", "10 3 15", lbtAll.toString());
+		
+		LinkedBinaryTree<Integer> lbtBig = new LinkedBinaryTree<>(20, lbtAll, lbtRoot);
+		assertEquals("", "10 3 15 20 5", lbtBig.toString());
 	}
 
 }
