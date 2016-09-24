@@ -10,7 +10,7 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
 {
     protected BinaryTreeNode<T> root; 
     protected int modCount, size;
-        
+
     /**
      * Creates an empty binary tree.
      */
@@ -176,9 +176,17 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
     @Override
     public boolean contains(T targetElement) 
     {
-    	// TODO Implement this
+    	boolean result = false;
     	
-    	return false;
+    	try {
+	    	if (find(targetElement) != null) {
+	    		result = true;
+	    	}
+    	} catch(ElementNotFoundException e) {
+    		result = false;
+    	}
+    	
+    	return result;
     }
     
     /**
@@ -304,7 +312,8 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
     public Iterator<T> iteratorPreOrder() 
     {
     	ArrayUnorderedList<T> tempList = new ArrayUnorderedList<>();
-    	// TODO Implement this.
+    	preOrder(root, tempList);
+    	
     	return new TreeIterator(tempList.iterator());
     }
 
@@ -317,7 +326,11 @@ public class LinkedBinaryTree<T> implements BinaryTreeADT<T>, Iterable<T>
     protected void preOrder(BinaryTreeNode<T> node, 
                             ArrayUnorderedList<T> tempList) 
     {
-        //TODO: Implement this.
+        if (node != null) {
+        	tempList.addToRear(node.getElement());
+        	preOrder(node.getLeft(), tempList);
+        	preOrder(node.getRight(), tempList);
+        }
     }
 
     /**

@@ -76,5 +76,22 @@ public class TestLinkedBinaryTree {
 		LinkedBinaryTree<Integer> lbtBig = new LinkedBinaryTree<>(20, lbtAll, lbtRoot);
 		assertEquals("", "10 3 15 20 5", lbtBig.toString());
 	}
+	
+	@Test
+	public void testContains() {
+		assertTrue(lbtAll.contains(new Integer(3)));
+		assertTrue(lbtAll.contains(new Integer(10)));
+		assertTrue(lbtAll.contains(new Integer(15)));
+		assertFalse(lbtAll.contains(new Integer(2)));
+	}
+	
+	/*@Test
+	public void testPreOrderIter() {
+		assertEquals("", "5", lbtRoot.toStringPreOrder());
+		assertEquals("", "3 10 15", lbtAll.toStringPreOrder());
+		
+		LinkedBinaryTree<Integer> lbtBig = new LinkedBinaryTree<>(20, lbtAll, lbtRoot);
+		assertEquals("", "20 3 10 15 5", lbtBig.toStringPreOrder());
+	}*/
 
 }

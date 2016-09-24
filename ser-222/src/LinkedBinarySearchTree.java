@@ -309,7 +309,36 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
     @Override
     public T removeMax() throws EmptyCollectionException 
     {
-        // TODO: May need to implement.
+    	T result = null;
+
+        if (isEmpty())
+            throw new EmptyCollectionException("LinkedBinarySearchTree");
+        else 
+        {
+            if (root.right == null) 
+            {
+                result = root.element;
+                root = root.left;
+            }
+            else 
+            {
+                BinaryTreeNode<T> parent = root;
+                BinaryTreeNode<T> current = root.right;
+                
+                while (current.right != null) 
+                {
+                    parent = current;
+                    current = current.right;
+                }
+                
+                result =  current.element;
+                parent.right = current.left;
+            }
+
+            modCount--;
+        }
+ 
+        return result;
     }
 
     /**
@@ -321,9 +350,29 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
      * @throws EmptyCollectionException if the tree is empty
      */
     @Override
-    public T findMin() throws EmptyCollectionException 
-    {
-        // TODO: May need to implement.
+    public T findMin() throws EmptyCollectionException {
+        T result = null;
+        
+        if (isEmpty()) {
+        	throw new EmptyCollectionException("LinkedBinarySearchTree");
+        } else {
+        	if (root.left == null) 
+            {
+                result = root.element;
+            } else {
+                BinaryTreeNode<T> parent = root;
+                BinaryTreeNode<T> current = root.left;
+                
+                while (current.left != null) {
+                	parent = current;
+                    current = current.left;
+                }
+
+                result = current.element;
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -336,45 +385,112 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
      * @throws EmptyCollectionException if the tree is empty
      */
     @Override
-    public T findMax() throws EmptyCollectionException 
-    {
-        // TODO: May need to implement.
+    public T findMax() throws EmptyCollectionException {
+    	T result = null;
+        
+        if (isEmpty()) {
+        	throw new EmptyCollectionException("LinkedBinarySearchTree");
+        } else {
+        	if (root.right == null) 
+            {
+                result = root.element;
+            } else {
+                BinaryTreeNode<T> parent = root;
+                BinaryTreeNode<T> current = root.right;
+                
+                while (current.right != null) {
+                	parent = current;
+                    current = current.right;
+                }
+
+                result = current.element;
+            }
+        }
+
+        return result;
     }
 
-    // TODO: Implement find.
-    // TODO: Implement contains.
+    @Override
+    public T find(T targetElement) throws ElementNotFoundException {
+    	if (!(targetElement instanceof Comparable))
+            throw new NonComparableElementException("LinkedBinarySearchTree");
+
+    	BinaryTreeNode<T> current = findNode(targetElement, root);
+    	
+    	if (current == null) {
+    		throw new ElementNotFoundException("LinkedBinarySearchTree");
+    	}
+    	
+    	return (current.getElement());
+    }
+    
+    @Override
+    public boolean contains(T targetElement) {
+    	boolean result = false;
+    	
+    	try {
+	    	if (find(targetElement) != null) {
+	    		result = true;
+	    	}
+    	} catch(ElementNotFoundException e) {
+    		result = false;
+    	}
+    	
+    	return result;
+    }
     
     /**
      * Returns the left subtree of the root of this tree.
      *
      * @return a link to the left subtree fo the tree
      */
-    @Override
+    /*@Override
     public LinkedBinarySearchTree<T> getLeft()
     { 
         // TODO: May need to implement.
-    }
+    }*/
     
     /**
      * Returns the right subtree of the root of this tree.
      *
      * @return a link to the right subtree of the tree
      */
-    @Override
+    /*@Override
     public LinkedBinarySearchTree<T> getRight()
     {
         // TODO: May need to implement.
-    }
+    }*/
     
     /**
      * Returns a reference to the specified target element if it is
-     * found in this tree.  
+     * found in this tree.
      *
      * @param targetElement the element being sought in the tree
      * @param next the tree node to begin searching on
      */
-    private BinaryTreeNode<T> findNode(T targetElement, BinaryTreeNode<T> next) 
-    {
-        // TODO: May need to implement.
+    private BinaryTreeNode<T> findNode(T targetElement, BinaryTreeNode<T> next) {
+        if (next == null) {
+        	return null;
+        }
+        
+        if (!(targetElement instanceof Comparable)) {
+        	throw new NonComparableElementException("LinkedBinarySearchTree");
+        }
+        
+        Comparable<T> comparableElement = (Comparable<T>)targetElement;
+        
+        if (comparableElement.compareTo(next.getElement()) == 0) {
+        	return next;
+        }
+        
+        BinaryTreeNode<T> temp;
+        
+        if (comparableElement.compareTo(next.getElement()) < 0) {
+        	temp = findNode(targetElement, next.getLeft());
+        } else {
+        	temp = findNode(targetElement, next.getRight());
+        }
+        
+        return temp;
     }
 }
