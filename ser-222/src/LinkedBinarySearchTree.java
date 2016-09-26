@@ -6,7 +6,7 @@
  * @version 4.0
  */
 public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
-                                        implements BinarySearchTreeADT<T>
+									implements BinarySearchTreeADT<T>
 {
     /**
      * Creates an empty binary search tree.
@@ -64,6 +64,8 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
                     addElement(element, root.getRight());
             }
         }
+        
+        size++;
         modCount++;
     }
     
@@ -128,6 +130,7 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
                     root.setLeft(temp.left);
                 }
 
+                size--;
                 modCount--;
             }
             else 
@@ -172,6 +175,7 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
                 else 
                     parent.left = temp;
 
+                size--;
                 modCount--;
             }
             else 
@@ -292,6 +296,7 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
                 parent.left = current.right;
             }
 
+            size--;
             modCount--;
         }
  
@@ -335,6 +340,7 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
                 parent.right = current.left;
             }
 
+            size--;
             modCount--;
         }
  
@@ -493,4 +499,116 @@ public class LinkedBinarySearchTree<T> extends LinkedBinaryTree<T>
         
         return temp;
     }
+    
+    public static void main(String[] args) {
+    	// Test functions on LinkedBinarySearchTree of size 1
+    	System.out.println("Testing LinkedBinarySearchTree - size = 1");
+    	LinkedBinarySearchTree<Integer> searchTree = new LinkedBinarySearchTree<>();
+    	
+    	System.out.println("Adding element 5 to empty tree...");
+    	searchTree.addElement(5);
+    	System.out.println("searchTree.contains(5): " + searchTree.contains(5));
+    	System.out.println("searchTree size: " + searchTree.size());
+    	System.out.println("searchTree height: " + searchTree.getHeight());
+    	System.out.println("searchTree rootElement: " + searchTree.getRootElement());
+    	System.out.println("searchTree before removeMin: " + searchTree.toString());
+    	searchTree.removeMin();
+    	System.out.println("searchTree after removeMin: " + searchTree.toString());
+    	System.out.println("searchTree height: " + searchTree.getHeight());
+    	System.out.println("Adding element 7 to empty tree...");
+    	searchTree.addElement(7);
+    	System.out.println("searchTree.contains(7): " + searchTree.contains(7));
+    	System.out.println("searchTree size: " + searchTree.size());
+    	System.out.println("searchTree before removeMax: " + searchTree.toString());
+    	searchTree.removeMax();
+    	System.out.println("searchTree after removeMax: " + searchTree.toString() + "\n");
+    	
+    	// Test functioons on LinkedBinarySearchTree of size > 1
+    	System.out.println("Testing LinkedBinarySearchTree - size > 1");
+    	searchTree.addElement(7);
+    	searchTree.addElement(20);
+    	searchTree.addElement(15);
+    	searchTree.addElement(1);
+    	System.out.println("Contents of searchTree after additions: " + searchTree.toString());
+    	System.out.println("searchTree size: " + searchTree.size());
+    	System.out.println("searchTree height: " + searchTree.getHeight());
+    	System.out.println("searchTree rootElement: " + searchTree.getRootElement());
+    	System.out.println("searchTree.contains(15): " + searchTree.contains(15));
+    	System.out.println("searchTree.contains(3): " + searchTree.contains(3));
+    	System.out.println("Min element: " + searchTree.findMin() + "\nMax element: " + searchTree.findMax());
+    	System.out.println("Contents of searchTree after findMin and findMax: " + searchTree.toString());
+    	searchTree.removeMin();
+    	System.out.println("Contents of searchTree after removeMin: " + searchTree.toString());
+    	searchTree.removeMax();
+    	System.out.println("Contents of searchTree after removeMax: " + searchTree.toString());
+    	System.out.println("Min element: " + searchTree.findMin() + "\nMax element: " + searchTree.findMax());
+    	System.out.println("searchTree.size(): " + searchTree.size());
+    	System.out.println("searchTree height: " + searchTree.getHeight());
+    	System.out.println("searchTree rootElement: " + searchTree.getRootElement());
+    	System.out.println("Adding 6...");
+    	searchTree.addElement(6);
+    	System.out.println("Contents of searchTree after additions: " + searchTree.toString());
+    	System.out.println("searchTree size: " + searchTree.size());
+    	System.out.println("searchTree height: " + searchTree.getHeight());
+    	System.out.println("searchTree rootElement: " + searchTree.getRootElement());
+    	System.out.println("searchTree.contains(6): " + searchTree.contains(6));
+    	System.out.println("searchTree.contains(3): " + searchTree.contains(3));
+    	
+    	System.out.print("\n");
+    	// Benchmark testing
+    	LinkedBinaryTree<Integer> lbtBenchMark = fillInt(1024, 0);
+    	
+    	long startTime = System.nanoTime();
+    	long stopTime;
+    	lbtBenchMark.find(39367);
+    	stopTime = System.nanoTime() - startTime;
+    	System.out.println("Time to find bottom-right element in LinkedBinaryTree of size 2049: " + stopTime + " ns");
+    	
+    	startTime = System.nanoTime();
+    	lbtBenchMark.contains(39367);
+    	stopTime = System.nanoTime() - startTime;
+    	System.out.println("Time to run contains in LinkedBinaryTree: " + stopTime + " ns");
+    	
+    	LinkedBinarySearchTree<Integer> lbstBenchMark = new LinkedBinarySearchTree<>();
+    	
+    	boolean first = true;
+    	for (int i = 1024, j = 1024; i >= 0 && j <= 2048; i--, j++) {
+    		
+    		if (first) {
+    			lbstBenchMark.addElement(i);
+    			first = false;
+    		} else {
+    			lbstBenchMark.addElement(i);
+    			lbstBenchMark.addElement(j);
+    		}
+    	}
+    	
+    	startTime = System.nanoTime();
+    	lbstBenchMark.find(2048);
+    	stopTime = System.nanoTime() - startTime;
+    	System.out.println("Time to find bottom-right element in LinkedBinarySearchTree of size 2049: " + stopTime + " ns");
+    	startTime = System.nanoTime();
+    	lbstBenchMark.contains(2048);
+    	stopTime = System.nanoTime() - startTime;
+    	System.out.println("Time to run contains in LinkedBinarySearchTree: " + stopTime + " ns");
+    }
+    
+    /**
+     * The fillInt utility method populates a LindedBinaryTree with integers
+     * and is included here only to facilitate benchmark performance testing of
+     * the LinkedBinaryTree's find method vs. the LinkedBinarySearchTree's find method.
+     * The algorithm used to populate the tree is not mathematically precise.
+     * @param rootVal
+     * @param baseVal
+     * @return
+     */
+    public static LinkedBinaryTree<Integer> fillInt(int rootVal, int baseVal) {
+    	LinkedBinaryTree<Integer> result = new LinkedBinaryTree<Integer>();
+    	
+    	if (rootVal % 2 != 0) {
+    		return new LinkedBinaryTree<Integer>(baseVal);
+    	}
+		
+		return new LinkedBinaryTree<Integer>(rootVal, fillInt((int)(rootVal*.5), rootVal-1), fillInt((int)(rootVal*1.5), rootVal+1));
+	}
 }
