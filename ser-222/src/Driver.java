@@ -24,7 +24,7 @@ public class Driver {
         testStrings(new TwoProbeChainMap<String, Integer>());
 
         System.out.println("LinearProbingMap: ");
-        //testStrings(new LinearProbingMap<String, Integer>());
+        testStrings(new LinearProbingMap<String, Integer>());
     }
     
     /**
