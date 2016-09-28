@@ -1,110 +1,121 @@
-import java.util.NoSuchElementException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * DoubleOrderedList testing area.
+ * Map testing ground.
  * 
  * @author (your name), Acuna
  * @version (version)
  */
 public class Driver {
-    public static void main(String [] args) {
-    	DoubleOrderedList<Integer> list = new DoubleOrderedList<>();
-        
-        //RA: These are _extremely_ simple tests - do not use them when doing
-        //    your writeup.
-        
-    	list.add(23);
-        list.add(24);	
-        list.add(16);
-        list.add(3);	
-        list.add(7);
-        list.add(17);	
-        list.add(9);	
-        list.add(13);	
-        list.add(14);	
-        list.add(1);
+    
+    /**
+     * Entry point for testing.
+     * 
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
 
-        System.out.println(list);
+        System.out.println("ChainMap: ");
+        testStrings(new ChainMap<String, Integer>());
         
-        list.remove(7);
-        list.removeFirst();
-        list.remove(17);
-        list.removeLast();
-        list.remove(14);
-        list.removeLast();
+        System.out.println("TwoProbeChainMap: ");
+        testStrings(new TwoProbeChainMap<String, Integer>());
+
+        System.out.println("LinearProbingMap: ");
+        //testStrings(new LinearProbingMap<String, Integer>());
+    }
+    
+    /**
+     * Test string operations on symbol table implementation. No JUnit; ugly. 
+     * Make assertions are enabled before using this method.
+     * 
+     * @param m An object implementing a symbol table.
+     */
+    public static void testStrings(Map<String, Integer> m) {
         
-        System.out.println(list);
+        System.out.println("*STRING TESTING*");
+        System.out.println("  Testing creation and basic methods... ");
         
-        /* Test Results:
-            1 3 7 9 13 14 16 17 23 24 
-            3 9 13 16 
-        */
+        //populate initial symbol table.
+        Set<String> keys = new HashSet<>(Arrays.asList("DFKDJSFS", "DAFDW", "XZC", "adsfas", "a", "B", "112323", "<Object>", "AAAA", "A"));
+        m.put("DFKDJSFS", 21);
+        m.put("DAFDW", 52);
+        m.put("XZC", 5);
+        m.put("adsfas", 8);
+        m.put("a", 58);
+        m.put("B", 0);
+        m.put("112323", 84);
+        m.put("<Object>", 743564);
+        m.put("AAAA", 7);
+        m.put("A", 1);
         
-        //Everything below is additional
+        assert(!m.isEmpty())           : "symbol table is empty after inserting elemetns";
+        assert(m.size() == 10)         : "does not contain correct number of elements";
+        assert(m.contains("112323"))  : "added key -42341145 does not exist";
+        assert(m.contains("a"))          : "added key 0 does not exist" ;
+        assert(m.contains("DFKDJSFS"))   : "added key 38334343 does not exist";
+        assert(!m.contains("b")) : "contains unknown key -62341145";
+        assert(!m.contains("AA"))        : "contains unknown key -1";
+        assert(!m.contains("FDFDSFSFDSFDS"))  : "contains unknown key -58334343";
+
+        Set<String> stKeys = new HashSet<>();
+        for(String i : m.keys())
+            stKeys.add(i);
+        assert(stKeys.equals(keys))     : "keys do not match expected";
+
+        //note: the following code does not check if keys is maintained properly - it should.
         
-        System.out.println("\nBegin additional test cases...\n------------------------------");
-        DoubleOrderedList<Integer> testRemoveFirst = new DoubleOrderedList<>();
-        int testElem1;
+        System.out.println("  Testing put()... ");
         
-        try {
-        	testElem1 = testRemoveFirst.removeFirst(); // uncomment to test exception
-        } catch (EmptyCollectionException e) {
-        	System.out.println("No first element to remove");
-        }
-        testRemoveFirst.add(5);
-        // Test removeFirst from list of 1 element
-        System.out.println("List before removeFirst: " + testRemoveFirst);
-        testElem1 = testRemoveFirst.removeFirst();
-        System.out.println("Removed element: " + testElem1);
-        System.out.println("List after removeFirst: " + testRemoveFirst);
+        //add new key
+        int size = m.size();
+        m.put("TEST", 42);
+        assert(m.size() == size + 1)   : "size did not update.";
+        assert(m.contains("TEST"))         : "does not contain new key";
+        assert(m.get("TEST") == 42)        : "does not return correct value";
         
-        // Test removeFirst from list of 3 elements
-        testRemoveFirst.add(42);
-        testRemoveFirst.add(35);
-        testRemoveFirst.add(65);
-        System.out.println("List before removeFirst (3 elements): " + testRemoveFirst);
-        testElem1 = testRemoveFirst.removeFirst();
-        System.out.println("Removed element: " + testElem1);
-        System.out.println("List after removeFirst: " + testRemoveFirst);
+        //update existing key
+        size = m.size();
+        m.put("AAAA", 2);
+        assert(m.size() == size)       : "size changed";
+        assert(m.contains("AAAA"))     : "does not contain updated key";
+        assert(m.get("AAAA") == 2)     : "does not return updated value";
+            
+        System.out.println("  Testing get... ");
         
-        DoubleOrderedList<Integer> testRemoveLast = new DoubleOrderedList<>();
-        int testElem2;
-        //testElem2 = testRemoveLast.removeLast();
-        testRemoveLast.add(13);
-        // Test removeLast from list of 1 element
-        System.out.println("List before removeLast: " + testRemoveLast);
-        testElem2 = testRemoveLast.removeLast();
-        System.out.println("Removed element: " + testElem2);
-        System.out.println("List after removeLast: " + testRemoveLast);
+        //get key not there
+        size = m.size();
+        Integer ret = m.get("TEST2");
+        assert(ret == null)             : "returned non-null for key that doesn't exist";
+        assert(m.size() == size)       : "size changed";        
+        assert(!m.contains("TEST2"))   : "a key that doesn't exist appeared after get'ing it";
+
+        //get key there ("DAFDW", 52)
+        size = m.size();
+        ret = m.get("DAFDW");
+        assert(ret == 52)               : "returned incorrect value for key";
+        assert(m.size() == size)       : "size changed";        
+        assert(m.contains("DAFDW"))          : "key vanished after get'ing it";
         
-        // Test removeLast from list of 2 elements
-        testRemoveLast.add(102);
-        testRemoveLast.add(12);
-        System.out.println("List before removeLast (2 elements): " + testRemoveLast);
-        testElem2 = testRemoveLast.removeLast();
-        System.out.println("Removed element: " + testElem2);
-        System.out.println("List after removeLast: " + testRemoveLast);
         
-        // Test remove()
-        DoubleOrderedList<Integer> testRemove = new DoubleOrderedList<>();
-        testRemove.add(25);
-        testRemove.add(12);
-        testRemove.add(3);
+        System.out.println("  Testing delete... ");
         
-        // Test matching on first entry
-        System.out.println("List before remove(3): " + testRemove);
-        int testElem3 = testRemove.remove(3);
-        System.out.println("Removed element: " + testElem3);
-        System.out.println("List after remove(3): " + testRemove);
-        testRemove.add(3);
-        System.out.println("List before remove(25): " + testRemove);
-        testElem3 = testRemove.remove(25);
-        System.out.println("Removed element: " + testElem3);
-        System.out.println("List after remove(25): " + testRemove);
+        //delete key not there
+        size = m.size();
+        m.remove("<Object>ZZZ");
+        assert(m.get("<Object>ZZZ") == null)   : "returned non-null for key that was deleted";
+        assert(m.size() == size)               : "size changed";        
+        assert(!m.contains("<Object>ZZZ"))     : "a missing key is contained after it was deleted";
+
+        //delete key there  ("<Object>", 743564)
+        size = m.size();
+        m.remove("<Object>");
+        assert(m.get("<Object>") == null)      : "returned non-null for key that was deleted";
+        assert(m.size() == size - 1)           : "size did not update";        
+        assert(!m.contains("<Object>"))        : "a deleted key is still contained";
         
-        System.out.println("List contains 12: " + testRemove.contains(12));
-        System.out.println("List contains 3: " + testRemove.contains(3));
-        System.out.println("List contains 25: " + testRemove.contains(25));
-        System.out.println("List contains 7: " + testRemove.contains(7)); 
+        System.out.println("  DONE\n");
     }
 }
