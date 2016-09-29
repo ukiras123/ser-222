@@ -18,7 +18,6 @@ public class ChainMap<Key, Value> implements Map<Key, Value> {
     
     private int N; // number of key-value pairs
     private int M; // hash table size
-    
     private LinkedList<Entry>[] entries;
     
     public ChainMap() {
@@ -29,6 +28,7 @@ public class ChainMap<Key, Value> implements Map<Key, Value> {
         this.N = 0;
         this.M = M;
         entries = new LinkedList[M];
+
         for (int i = 0; i < M; i++)
             entries[i] = new LinkedList<>();
     }

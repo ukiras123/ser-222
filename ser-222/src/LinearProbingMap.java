@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 	
@@ -42,24 +43,57 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 		
 	@Override
 	public void put(Key key, Value val) {
+		boolean added = false;
 		int i = 0;
 		int origHash = hash(key, i);
 		
-		Entry current = entries[origHash].element();
+		Entry current = entries[origHash].peek();
+		int hash = origHash;
+		
+		// In the real world, we should resize and rehash if we've circled
+		// back to the original hash without finding an open position.
+		// So, I would add something like the following inside the while loop:
+		// "if (hash == origHash) resizeRehash();" where resizeRehash() would
+		// be some helper method that resizes and rehashes.
 		
 		while (current != null) {
-			i++;
-			int hash = hash(key, i);
+			if (current.key.hashCode() == key.hashCode()) {
+				current.value = val;
+				added = true;
+				break;
+			}
 			
-			current = entries[hash].element();
+			i++;
+			hash = hash(key, i);
+			current = entries[hash].peek();
 		}
 
-		
+		if (!added) {
+			entries[hash].add(new Entry(key, val));
+			N++;
+		}
 	}
 
 	@Override
 	public Value get(Key key) {
-		// TODO Auto-generated method stub
+		int i = 0;	
+		Entry result = entries[hash(key, i)].peek();
+		
+		if (result != null) {
+			if (result.key.hashCode() == key.hashCode()) {
+				return result.value;
+			}
+			
+			while (result.key.hashCode() != key.hashCode()) {
+				i++;
+				result = entries[hash(key, i)].peek();
+				
+				if (result.key.hashCode() == key.hashCode()) {
+					return result.value;
+				}
+			}
+		}
+				
 		return null;
 	}
 
@@ -71,8 +105,7 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 
 	@Override
 	public boolean contains(Key key) {
-		// TODO Auto-generated method stub
-		return false;
+		return get(key) != null;
 	}
 
 	@Override
@@ -87,8 +120,15 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 
 	@Override
 	public Iterable<Key> keys() {
-		// TODO Auto-generated method stub
-		return null;
+		Queue<Key> queue = new LinkedList<>();
+		
+		for (int i = 0; i < M; i++) {
+			if (entries[i].peek() != null) {
+				queue.add(entries[i].peek().key);
+			}
+		}
+		
+		return queue;
 	}
 
 }
