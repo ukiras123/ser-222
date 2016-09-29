@@ -1,6 +1,13 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * A map-like ADT implemented using a hashtable and the Linear Probing approach
+ * for collision resolution.
+ * 
+ * @author Robert Beerman
+ */
+
 public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 	
 	private class Entry {
@@ -32,10 +39,12 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
     }
     
     /**
+     * Hash method that increments the object's hashcode by a given value.
+     * Useful for Linear Probing.
      * 
-     * @param key
-     * @param i
-     * @return
+     * @param key the key being hashed
+     * @param i value by which to increment the hash code
+     * @return integer hash value
      */
     public int hash(Key key, int i) {
     	return ((key.hashCode() & 0x7fffffff) + i) % M;
@@ -99,7 +108,18 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 
 	@Override
 	public void remove(Key key) {
-		// TODO Auto-generated method stub
+		if (contains(key)) {
+			int i = 0;
+			int hash = hash(key, i);
+			
+			while (entries[hash].peek().key.hashCode() != key.hashCode()) {
+				i++;
+				hash = hash(key, i);
+			}
+			
+			entries[hash].remove();
+			N--;
+		}
 
 	}
 
