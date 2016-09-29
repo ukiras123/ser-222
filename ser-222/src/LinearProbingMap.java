@@ -2,10 +2,11 @@ import java.util.LinkedList;
 
 public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 	
-	private class Entry<Key, Value> {
+	private class Entry {
         public Key key;
         public Value value;
-        public Entry (Key k, Value v) {
+        
+        public Entry(Key k, Value v) {
             key = k;
             value = v;
         }
@@ -14,7 +15,7 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
     private int N; // number of key-value pairs
     private int M; // hash table size
     
-    private Entry<Key, Value>[] entries;
+    private LinkedList<Entry>[] entries;
     
     public LinearProbingMap() {
         this(997);
@@ -23,9 +24,10 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
     public LinearProbingMap(int M) {
         this.N = 0;
         this.M = M;
-        entries = new Entry<Key, Value>[M]);
-        /*for (int i = 0; i < M; i++)
-            entries[i] = new LinkedList<>();*/
+        entries = new LinkedList[M];
+        
+        for (int i = 0; i < M; i++)
+            entries[i] = new LinkedList<>();
     }
     
     /**
@@ -40,8 +42,19 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 		
 	@Override
 	public void put(Key key, Value val) {
-		// TODO Auto-generated method stub
+		int i = 0;
+		int origHash = hash(key, i);
+		
+		Entry current = entries[origHash].element();
+		
+		while (current != null) {
+			i++;
+			int hash = hash(key, i);
+			
+			current = entries[hash].element();
+		}
 
+		
 	}
 
 	@Override
@@ -64,14 +77,12 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return N == 0;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return N;
 	}
 
 	@Override
