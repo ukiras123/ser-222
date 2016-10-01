@@ -43,8 +43,6 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
 		int index1 = hash(key);
 		int index2 = hash2(key);
 		
-		//System.out.println("key: " + key.toString() + ", hashCode: " + key.hashCode());
-		
 		// Search list at first potential index
 		for (Entry entry : entries[index1]) {
 			if (key.hashCode() == entry.key.hashCode()) {
@@ -67,7 +65,8 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
 		int finalIndex = 0;
 		int index1 = hash(key);
 		int index2 = hash2(key);
-				
+
+		// Search list at first potential index
 		for (Entry entry : entries[index1]) {
 			if (key.hashCode() == entry.key.hashCode()) {
 				entry.value = val;
@@ -75,6 +74,7 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
 			}
 		}
 		
+		// Search list at second potential index
 		for (Entry entry : entries[index2]) {
 			if (key.hashCode() == entry.key.hashCode()) {
 				entry.value = val;
@@ -103,6 +103,7 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
 			int index2 = hash2(key);
 			int finalIndex = 0;
 			
+			// Search list at first potential index
 			for(Entry e : entries[index1]) {
 				if (e.key == key) {
 					target = e;
@@ -111,6 +112,7 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
 			}
 			
 			if (target == null) {
+				// Search list at second potential index
 				for(Entry e : entries[index2]) {
 					if (e.key == key) {
 						target = e;
@@ -142,12 +144,14 @@ public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
 
 	@Override
 	public Iterable<Key> keys() {
-		 Queue<Key> queue = new LinkedList<>();
-	        
-	        for (int i = 0; i < M; i++)
-	            for(Entry e : entries[i])
-	                    queue.add(e.key);
-	        
-	        return queue;
+		Queue<Key> queue = new LinkedList<>();
+
+        for (int i = 0; i < M; i++) {
+            for(Entry e : entries[i]) {
+                    queue.add(e.key);
+            }
+        }
+
+        return queue;
 	}
 }

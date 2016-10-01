@@ -10,7 +10,7 @@ import java.util.Queue;
 
 public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 	
-	private class Entry {
+	private class Entry<Key, Value> {
         public Key key;
         public Value value;
         
@@ -22,8 +22,8 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
     
     private int N; // number of key-value pairs
     private int M; // hash table size
-    
-    private LinkedList<Entry>[] entries;
+
+    private Entry<Key, Value>[] entries;
     
     public LinearProbingMap() {
         this(997);
@@ -32,10 +32,7 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
     public LinearProbingMap(int M) {
         this.N = 0;
         this.M = M;
-        entries = new LinkedList[M];
-        
-        for (int i = 0; i < M; i++)
-            entries[i] = new LinkedList<>();
+        entries = new Entry[M];
     }
     
     /**
@@ -54,16 +51,12 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 	public void put(Key key, Value val) {
 		boolean added = false;
 		int i = 0;
-		int origHash = hash(key, i);
+		int hash = hash(key, i);
 		
-		Entry current = entries[origHash].peek();
-		int hash = origHash;
+		Entry<Key, Value> current = entries[hash];
 		
-		// In the real world, we should resize and rehash if we've circled
-		// back to the original hash without finding an open position.
-		// So, I would add something like the following inside the while loop:
-		// "if (hash == origHash) resizeRehash();" where resizeRehash() would
-		// be some helper method that resizes and rehashes.
+		/* In the real world, we should resize and rehash if we've circled
+		back to the original hash without finding an open position. */
 		
 		while (current != null) {
 			if (current.key.hashCode() == key.hashCode()) {
@@ -74,19 +67,20 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 			
 			i++;
 			hash = hash(key, i);
-			current = entries[hash].peek();
+			current = entries[hash];
 		}
 
 		if (!added) {
-			entries[hash].add(new Entry(key, val));
+			entries[hash] = new Entry<Key, Value>(key, val);
 			N++;
 		}
 	}
 
 	@Override
 	public Value get(Key key) {
-		int i = 0;	
-		Entry result = entries[hash(key, i)].peek();
+		int i = 0;
+		
+		Entry<Key, Value> result = entries[hash(key, i)];
 		
 		if (result != null) {
 			if (result.key.hashCode() == key.hashCode()) {
@@ -95,10 +89,13 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 			
 			while (result.key.hashCode() != key.hashCode()) {
 				i++;
-				result = entries[hash(key, i)].peek();
+
+				result = entries[hash(key, i)];
 				
-				if (result.key.hashCode() == key.hashCode()) {
-					return result.value;
+				if (result != null) {
+					if (result.key.hashCode() == key.hashCode()) {
+						return result.value;
+					}
 				}
 			}
 		}
@@ -111,13 +108,13 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 		if (contains(key)) {
 			int i = 0;
 			int hash = hash(key, i);
-			
-			while (entries[hash].peek().key.hashCode() != key.hashCode()) {
+
+			while (entries[hash].key.hashCode() != key.hashCode()) {
 				i++;
 				hash = hash(key, i);
 			}
-			
-			entries[hash].remove();
+
+			entries[hash] = null;
 			N--;
 		}
 
@@ -143,8 +140,8 @@ public class LinearProbingMap<Key, Value> implements Map<Key, Value> {
 		Queue<Key> queue = new LinkedList<>();
 		
 		for (int i = 0; i < M; i++) {
-			if (entries[i].peek() != null) {
-				queue.add(entries[i].peek().key);
+			if (entries[i] != null) {
+				queue.add(entries[i].key);
 			}
 		}
 		

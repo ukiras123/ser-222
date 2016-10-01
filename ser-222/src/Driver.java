@@ -5,7 +5,7 @@ import java.util.Set;
 /**
  * Map testing ground.
  * 
- * @author (your name), Acuna
+ * @author Beerman, Acuna
  * @version (version)
  */
 public class Driver {
@@ -25,6 +25,7 @@ public class Driver {
 
         System.out.println("LinearProbingMap: ");
         testStrings(new LinearProbingMap<String, Integer>());
+        
     }
     
     /**
