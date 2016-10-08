@@ -1,6 +1,13 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * A map-like ADT implemented using a hashtable and a Two Probe Chaining approach
+ * for collision resolution.
+ * 
+ * @author Robert Beerman
+ */
+
 public class TwoProbeChainMap<Key, Value> implements Map<Key, Value> {
 	private class Entry {
         public Key key;
